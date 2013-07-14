@@ -11,6 +11,9 @@ import android.os.PowerManager;
 
 public final class QueryReceiver extends BroadcastReceiver {
 
+    private static final int RESULT_CONDITION_UNSATISFIED = com.twofortyfouram.locale.Intent.RESULT_CONDITION_UNSATISFIED;
+    private static final int RESULT_CONDITION_SATISFIED = com.twofortyfouram.locale.Intent.RESULT_CONDITION_SATISFIED;
+
     @Override
     public void onReceive(final Context context, final Intent intent) {
 
@@ -21,9 +24,9 @@ public final class QueryReceiver extends BroadcastReceiver {
             final boolean conditionState = bundle.getBoolean(PluginBundleManager.BUNDLE_EXTRA_BOOLEAN_STATE);
 
             if (isScreenOn ^ conditionState) {
-                setResultCode(com.twofortyfouram.locale.Intent.RESULT_CONDITION_UNSATISFIED);
+                setResultCode(RESULT_CONDITION_UNSATISFIED);
             } else {
-                setResultCode(com.twofortyfouram.locale.Intent.RESULT_CONDITION_SATISFIED);
+                setResultCode(RESULT_CONDITION_SATISFIED);
             }
             context.startService(new Intent(context, BackgroundService.class).putExtra(BackgroundService.EXTRA_BOOLEAN_WAS_SCREEN_ON, isScreenOn));
             ServiceWakeLockManager.aquireLock(context);

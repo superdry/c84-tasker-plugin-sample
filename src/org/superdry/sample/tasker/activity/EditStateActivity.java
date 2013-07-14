@@ -20,11 +20,10 @@ public final class EditStateActivity extends AbstractPluginActivity {
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        final Bundle localeBundle = getIntent().getBundleExtra(com.twofortyfouram.locale.Intent.EXTRA_BUNDLE);
         setContentView(R.layout.edit_state_activity);
-        mList = ((ListView) findViewById(android.R.id.list));
+        final Bundle localeBundle = getIntent().getBundleExtra(com.twofortyfouram.locale.Intent.EXTRA_BUNDLE);
+        mList = ((ListView) findViewById(R.id.list));
         mList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_single_choice, android.R.id.text1, getResources().getStringArray(R.array.display_states)));
-
         if (null == savedInstanceState) {
             if (PluginBundleManager.isStateBundleValid(localeBundle)) {
                 final boolean isDisplayOn = localeBundle.getBoolean(PluginBundleManager.BUNDLE_EXTRA_BOOLEAN_STATE);
@@ -39,15 +38,7 @@ public final class EditStateActivity extends AbstractPluginActivity {
         if (!isCanceled()) {
             if (AdapterView.INVALID_POSITION != mList.getCheckedItemPosition()) {
                 final int selectedResourceId = getResourceIdForPositionInArray(getApplicationContext(), R.array.display_states, mList.getCheckedItemPosition());
-                final boolean isDisplayOn;
-                if (R.string.list_on == selectedResourceId) {
-                    isDisplayOn = true;
-                } else if (R.string.list_off == selectedResourceId) {
-                    isDisplayOn = false;
-                } else {
-                    throw new AssertionError();
-                }
-
+                final boolean isDisplayOn = setDisplaySetting(selectedResourceId);
                 final Intent resultIntent = new Intent();
                 final Bundle resultBundle = PluginBundleManager.generateBundle(getApplicationContext(), isDisplayOn);
                 resultIntent.putExtra(com.twofortyfouram.locale.Intent.EXTRA_BUNDLE, resultBundle);
@@ -56,6 +47,16 @@ public final class EditStateActivity extends AbstractPluginActivity {
             }
         }
         super.finish();
+    }
+
+    static boolean setDisplaySetting(int selectedResourceId) {
+        if (R.string.list_on == selectedResourceId) {
+            return true;
+        } else if (R.string.list_off == selectedResourceId) {
+            return false;
+        } else {
+            throw new AssertionError();
+        }
     }
 
     static String generateBlurb(final Context context, final boolean isDisplayOn) {

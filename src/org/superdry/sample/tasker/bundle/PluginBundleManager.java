@@ -8,10 +8,10 @@ import android.os.Bundle;
 import android.text.TextUtils;
 
 public final class PluginBundleManager {
-
-    public static final String BUNDLE_EXTRA_BOOLEAN_STATE = "org.superdry.sample.tasker.extra.BOOLEAN_STATE";
-    public static final String BUNDLE_EXTRA_STRING_MESSAGE = "org.superdry.sample.tasker.extra.STRING_MESSAGE";
-    public static final String BUNDLE_EXTRA_INT_VERSION_CODE = "org.superdry.sample.tasker.extra.INT_VERSION_CODE";
+    private static final String PACKAGE_NAME = PluginBundleManager.class.getPackage().getName();
+    public static final String BUNDLE_EXTRA_BOOLEAN_STATE = PACKAGE_NAME + ".extra.BOOLEAN_STATE";
+    public static final String BUNDLE_EXTRA_STRING_MESSAGE = PACKAGE_NAME + ".extra.STRING_MESSAGE";
+    public static final String BUNDLE_EXTRA_INT_VERSION_CODE = PACKAGE_NAME + ".extra.INT_VERSION_CODE";
 
     public static boolean isActionBundleValid(final Bundle bundle) {
         if (null == bundle)

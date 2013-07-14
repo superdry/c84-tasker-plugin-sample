@@ -14,12 +14,12 @@ public final class EditActionActivity extends AbstractPluginActivity {
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        final Bundle localeBundle = getIntent().getBundleExtra(com.twofortyfouram.locale.Intent.EXTRA_BUNDLE);
         setContentView(R.layout.edit_action_activity);
+        final Bundle localeBundle = getIntent().getBundleExtra(com.twofortyfouram.locale.Intent.EXTRA_BUNDLE);
         if (null == savedInstanceState) {
             if (PluginBundleManager.isActionBundleValid(localeBundle)) {
                 final String message = localeBundle.getString(PluginBundleManager.BUNDLE_EXTRA_STRING_MESSAGE);
-                ((EditText) findViewById(android.R.id.text1)).setText(message);
+                ((EditText) findViewById(R.id.toast_text)).setText(message);
             }
         }
     }
@@ -27,7 +27,7 @@ public final class EditActionActivity extends AbstractPluginActivity {
     @Override
     public void finish() {
         if (!isCanceled()) {
-            final String message = ((EditText) findViewById(android.R.id.text1)).getText().toString();
+            final String message = ((EditText) findViewById(R.id.toast_text)).getText().toString();
             if (message.length() > 0) {
                 final Intent resultIntent = new Intent();
                 final Bundle resultBundle = PluginBundleManager.generateBundle(getApplicationContext(), message);
